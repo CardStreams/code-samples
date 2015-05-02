@@ -37,7 +37,7 @@ request = require 'request'
   }
   oauth_client.getToken opts, (err, resp, body) ->
     return console.log "Error while generating token: #{err}" if err
-    # ... body.access_tooken gives read access to timelines A and B, full access to timeline C
+    # ... body.access_token gives read access to timelines A and B, full access to timeline C
 ###
 getToken = (options, cb = (err, resp, body) ->) ->
   return cb new Error("apiEndpoint option is required") if not options?.apiEndpoint?
@@ -62,10 +62,10 @@ getToken = (options, cb = (err, resp, body) ->) ->
 
   # Token generation magic (request to Lifestreams API)
   request.post {
-    url: "#{options.apiEndpoint}/oauth/token",
+    url: "#{options.apiEndpoint}/v1/oauth/token",
     headers:
-      'X-Lifestreams-3scale-AppId': "#{options.app_id}"
-      'X-Lifestreams-3scale-AppKey':"#{options.app_key}"
+      'X-Cardstreams-AppId': "#{options.app_id}"
+      'X-Cardstreams-AppKey':"#{options.app_key}"
     form:
       grant_type: 'client_credentials'
       scope: scopes.join(" ") 
