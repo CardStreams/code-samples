@@ -14,7 +14,7 @@ $options = [
   "app_id" => "... your app id ...",
   "app_key" => "... your app key ...",
   "origins" => [ "my.domain.com", "*.wildcard.domain.com" ],
-  "timelineAccess" => [ [ "55452c0f70ce262000000015", "read" ], [ "55452c2170ce262000000017", "full" ] ]
+  "streamAccess" => [ [ "55452c0f70ce262000000015", "read" ], [ "55452c2170ce262000000017", "full" ] ]
 ];
 
 $result = getToken($options);
@@ -35,20 +35,20 @@ function getToken(array $options) {
     }
   }
 
-  // Access level on all timelines
+  // Access level on all streams
   if (isset($options['accessLevel']) && $options['accessLevel']) {
-    $scopes[] = "tl;*;" . $options['accessLevel'];
+    $scopes[] = "st;*;" . $options['accessLevel'];
   }
 
-  // Access restricted to some specific timelines
-  if (isset($options['timelineAccess']) && is_array($options['timelineAccess'])) {
-    foreach ($options['timelineAccess'] as $tlAcc) {
-      $tlId = $tlAcc[0];
+  // Access restricted to some specific streams
+  if (isset($options['streamAccess']) && is_array($options['streamAccess'])) {
+    foreach ($options['streamAccess'] as $stAcc) {
+      $stId = $stAcc[0];
       $level = 'read';
-      if (isset($tlAcc[1])) {
-        $level = $tlAcc[1];
+      if (isset($stAcc[1])) {
+        $level = $stAcc[1];
       }
-      $scopes[] = "tl;" . $tlId . ";" . $level;
+      $scopes[] = "st;" . $stId . ";" . $level;
     }
   }
 
